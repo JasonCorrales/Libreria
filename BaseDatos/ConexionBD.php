@@ -5,7 +5,7 @@ class ConexionBD {
     private $servidor = 'localhost';
     private $usuario = 'librito';
     private $password = '123456';
-    private $baseDatos = 'test'; 
+    private $baseDatos = 'libreria'; 
     private $coneccion;
     
     public function __construct() {         
@@ -22,6 +22,7 @@ class ConexionBD {
       }
     }
     
+    //Método que obtiene la conección
     public function getConeccion(){        
         if($this->coneccion == null){
             abrirConeccion();
@@ -29,17 +30,19 @@ class ConexionBD {
       return $this->coneccion;
     }
     
+    // Método que ejecuta todos los SELECT
     public function executeQueryReturnData($sql) {
        $registros = array();
        $resultado = $this->coneccion->query($sql);   
 
        while($row = mysqli_fetch_assoc($resultado)){
           array_push($registros, $row);
-       }
-       
+       }       
        return $registros;
    }
-    
+   
+   // Método es para todos los INSERT, UPDATE, DELETE
+   // $sql = 'INSERT INTO USUARIO(CORREO,PASSWORD) VALUES(?,?)';
    public function executeQuery($sql, $param_type, $paramValue) {
         $stmt = $this->coneccion->prepare($sql);
         $arrayValues = $this->bindQueryParams($param_type, $paramValue);
@@ -56,6 +59,7 @@ class ConexionBD {
         return $param_value_reference;
     }    
     
+   // Cerrar la conección 
    public function cerrarConeccion(){
        $this->coneccion->close();
    }
