@@ -25,7 +25,7 @@ class ConexionBD {
     //Método que obtiene la conección
     public function getConeccion(){        
         if($this->coneccion == null){
-            abrirConeccion();
+            $this->abrirConeccion();
         }
       return $this->coneccion;
     }
@@ -62,6 +62,7 @@ class ConexionBD {
    // Cerrar la conección 
    public function cerrarConeccion(){
        $this->coneccion->close();
+       $this->coneccion = null;       
    }
     
 }
